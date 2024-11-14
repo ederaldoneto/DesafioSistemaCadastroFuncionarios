@@ -1,14 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using TrilhaNetAzureDesafio.Context;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configuração do DbContext para usar MySQL
 builder.Services.AddDbContext<RHContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("ConexaoPadrao"),
+        new MySqlServerVersion(new Version(8, 0, 27))
+    ));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configuração do Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
